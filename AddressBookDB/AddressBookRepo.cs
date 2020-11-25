@@ -126,5 +126,70 @@ namespace AddressBookDB
                 this.sqlconnection.Close();
             }
         }
+
+        /// <summary>
+        /// Ability to Retrieve Contacts from the Database that were added in a particular period
+        /// </summary>
+        /// <param name="start_Date"></param>
+        /// <param name="end_Date"></param>
+        public void GetContactsByDateRange(string start_Date, string end_Date)
+        {
+            SqlConnection sqlconnection = new SqlConnection(connectionString);
+            try
+            {
+                AddressBookModel employeeModel = new AddressBookModel();
+                DateTime Start_Date = Convert.ToDateTime(start_Date);
+                DateTime End_Date = Convert.ToDateTime(end_Date);
+                using (this.sqlconnection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("SpGetContactsByDateRange", this.sqlconnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("PersonId", employeeModel.PersonId);
+                    sqlCommand.Parameters.AddWithValue("@Start_Date", employeeModel.Start_Date);
+                    sqlCommand.Parameters.AddWithValue("@End_Date", employeeModel.End_Date);
+
+                    this.sqlconnection.Open();
+
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            employeeModel.First_Name = sqlDataReader.GetString(0);
+                            employeeModel.Last_Name = sqlDataReader.GetString(1);
+                            employeeModel.Person_Address = sqlDataReader.GetString(2);
+                            employeeModel.City = sqlDataReader.GetString(3);
+                            employeeModel.State = sqlDataReader.GetString(4);
+                            employeeModel.Zip_Code = sqlDataReader.GetString(5);
+                            employeeModel.Phone_Number = sqlDataReader.GetString(6);
+                            employeeModel.Email = sqlDataReader.GetString(7);
+                            employeeModel.Address_Book_Name = sqlDataReader.GetString(8);
+                            employeeModel.Address_Book_Type = sqlDataReader.GetString(9);
+
+                            Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                                employeeModel.First_Name, employeeModel.Last_Name, employeeModel.Person_Address, employeeModel.City,
+                                employeeModel.State, employeeModel.Zip_Code, employeeModel.Phone_Number, employeeModel.Email,
+                                employeeModel.Address_Book_Name, employeeModel.Address_Book_Type);
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                    sqlDataReader.Close();
+                    this.sqlconnection.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                this.sqlconnection.Close();
+            }
+        }
     }
 }
