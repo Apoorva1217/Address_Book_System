@@ -10,7 +10,7 @@ namespace AddressBookDB
             AddressBookRepo addressBookRepo = new AddressBookRepo();
             AddressBookModel addressBookModel = new AddressBookModel();  
             addressBookRepo.GetAllDetails();
-            addressBookRepo.UpdateContact(addressBookModel);
+            addressBookRepo.UpdateContact("Aayush","Kadam");
             addressBookRepo.GetContactsByDateRange("2019-02-03","2020-10-22");
             addressBookRepo.GetCountByCityOrState();
             addressBookRepo.AddContact(addressBookModel);

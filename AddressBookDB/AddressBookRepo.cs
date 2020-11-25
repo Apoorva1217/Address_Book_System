@@ -16,7 +16,7 @@ namespace AddressBookDB
         /// <summary>
         /// Ability for the AddressBook Service to rerieve all the Entries from the DB
         /// </summary>
-        public void GetAllDetails()
+        public bool GetAllDetails()
         {
             SqlConnection sqlconnection = new SqlConnection(connectionString);
             try
@@ -60,6 +60,7 @@ namespace AddressBookDB
                     }
                     sqlDataReader.Close();
                     this.sqlconnection.Close();
+                    return true;
                 }
             }
             catch (Exception exception)
@@ -76,7 +77,7 @@ namespace AddressBookDB
         /// Ability to update the Contact Information in the address book for a person and ensure that the Contact Information in the memory is in Sync with the DB
         /// </summary>
         /// <param name="addressBookModel"></param>
-        public void UpdateContact(AddressBookModel addressBookModel)
+        public bool UpdateContact(string firstName,string lastName)
         {
             SqlConnection sqlconnection = new SqlConnection(connectionString);
             try
@@ -108,6 +109,7 @@ namespace AddressBookDB
                                 employeeModel.State);
                             Console.WriteLine("\n");
                         }
+                        return true;
                     }
                     else
                     {
@@ -115,6 +117,7 @@ namespace AddressBookDB
                     }
                     sqlDataReader.Close();
                     this.sqlconnection.Close();
+                    return false;
                 }
             }
             catch (Exception exception)
@@ -132,7 +135,7 @@ namespace AddressBookDB
         /// </summary>
         /// <param name="start_Date"></param>
         /// <param name="end_Date"></param>
-        public void GetContactsByDateRange(string start_Date, string end_Date)
+        public bool GetContactsByDateRange(string start_Date, string end_Date)
         {
             SqlConnection sqlconnection = new SqlConnection(connectionString);
             try
@@ -173,6 +176,7 @@ namespace AddressBookDB
                                 employeeModel.Address_Book_Name, employeeModel.Address_Book_Type);
                             Console.WriteLine("\n");
                         }
+                        return true;
                     }
                     else
                     {
@@ -180,6 +184,7 @@ namespace AddressBookDB
                     }
                     sqlDataReader.Close();
                     this.sqlconnection.Close();
+                    return false;
                 }
             }
             catch (Exception exception)
@@ -220,11 +225,12 @@ namespace AddressBookDB
 
                     SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
 
+                    int COUNT = 0;
                     if (sqlDataReader.HasRows)
                     {
                         while (sqlDataReader.Read())
                         {
-                            int COUNT = sqlDataReader.GetInt32(0);
+                            COUNT = sqlDataReader.GetInt32(0);
                             employeeModel.City = sqlDataReader.GetString(1);
                             employeeModel.State = sqlDataReader.GetString(2);
 
