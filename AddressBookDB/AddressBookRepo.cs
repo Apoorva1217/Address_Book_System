@@ -191,5 +191,62 @@ namespace AddressBookDB
                 this.sqlconnection.Close();
             }
         }
+
+        /// <summary>
+        /// Ability to Retrieve number of Contacts in the Database by City or State
+        /// </summary>
+        public void GetCountByCityOrState()
+        {
+            sqlconnection = new SqlConnection(connectionString);
+            try
+            {
+                AddressBookModel employeeModel = new AddressBookModel();
+                using (sqlconnection)
+                {
+                    string query = @"SELECT COUNT(City),City 
+                                    FROM Address INNER JOIN People
+                                    ON Address.PersonId=People.PersonId
+                                    WHERE City='Pune' 
+                                    GROUP BY City;
+
+                                    SELECT COUNT(State),State 
+                                    FROM Address INNER JOIN People
+                                    ON Address.PersonId=People.PersonId
+                                    WHERE State='Maharashtra' 
+                                    GROUP BY State;";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.sqlconnection);
+
+                    this.sqlconnection.Open();
+
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            int COUNT = sqlDataReader.GetInt32(0);
+                            employeeModel.City = sqlDataReader.GetString(1);
+                            employeeModel.State = sqlDataReader.GetString(2);
+
+                            Console.WriteLine("Count:" + COUNT + "\nCity:" + employeeModel.City + "\nState:" + employeeModel.State);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                    sqlDataReader.Close();
+                    this.sqlconnection.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                this.sqlconnection.Close();
+            }
+        }
     }
 }
