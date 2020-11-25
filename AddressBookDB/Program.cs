@@ -13,6 +13,7 @@ namespace AddressBookDB
             addressBookRepo.UpdateContact(addressBookModel);
             addressBookRepo.GetContactsByDateRange("2019-02-03","2020-10-22");
             addressBookRepo.GetCountByCityOrState();
+            addressBookRepo.AddContact(addressBookModel);
         }
     }
 }

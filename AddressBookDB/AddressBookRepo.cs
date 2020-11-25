@@ -248,5 +248,55 @@ namespace AddressBookDB
                 this.sqlconnection.Close();
             }
         }
+
+        /// <summary>
+        /// Ability to Add new Contact to the Address Book Database
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
+        public bool AddContact(AddressBookModel addressBookModel)
+        {
+            sqlconnection = new SqlConnection(connectionString);
+            try
+            {
+                using (sqlconnection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("SpAddContact", this.sqlconnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@First_Name", addressBookModel.First_Name);
+                    sqlCommand.Parameters.AddWithValue("@Last_Name", addressBookModel.Last_Name);
+                    sqlCommand.Parameters.AddWithValue("@Person_Address", addressBookModel.Person_Address);
+                    sqlCommand.Parameters.AddWithValue("@City", addressBookModel.City);
+                    sqlCommand.Parameters.AddWithValue("@State", addressBookModel.State);
+                    sqlCommand.Parameters.AddWithValue("@Zip_Code", addressBookModel.Zip_Code);
+                    sqlCommand.Parameters.AddWithValue("@Phone_Number", addressBookModel.Phone_Number);
+                    sqlCommand.Parameters.AddWithValue("@Email", addressBookModel.Email);
+                    sqlCommand.Parameters.AddWithValue("@Address_Book_Name", addressBookModel.Address_Book_Name);
+                    sqlCommand.Parameters.AddWithValue("@Address_Book_Type", addressBookModel.Address_Book_Type);
+
+                    this.sqlconnection.Open();
+                    var result = sqlCommand.ExecuteNonQuery();
+                    this.sqlconnection.Close();
+
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                        return false;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                this.sqlconnection.Close();
+            }
+        }
     }
 }
