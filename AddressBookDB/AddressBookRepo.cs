@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AddressBookDB
 {
@@ -77,7 +79,7 @@ namespace AddressBookDB
         /// Ability to update the Contact Information in the address book for a person and ensure that the Contact Information in the memory is in Sync with the DB
         /// </summary>
         /// <param name="addressBookModel"></param>
-        public bool UpdateContact(string firstName,string lastName)
+        public bool UpdateContact(string firstName, string lastName)
         {
             SqlConnection sqlconnection = new SqlConnection(connectionString);
             try
@@ -303,6 +305,24 @@ namespace AddressBookDB
             {
                 this.sqlconnection.Close();
             }
+        }
+
+        /// <summary>
+        /// Add Person Contact to Address Book with Thread
+        /// </summary>
+        /// <param name="addressBookModel"></param>
+        public void AddPersonToAddressBookWithThread(List<AddressBookModel> addressBookModel)
+        {
+            addressBookModel.ForEach(addressBookData =>
+            {
+                Task thread = new Task(() =>
+                {
+                    Console.WriteLine("Employee Being Added: " + addressBookData.First_Name);
+                    this.AddContact(addressBookData);
+                    Console.WriteLine("Employee Added: " + addressBookData.First_Name);
+                });
+                thread.Start();
+            });
         }
     }
 }
