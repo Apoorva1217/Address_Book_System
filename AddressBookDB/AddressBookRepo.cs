@@ -81,13 +81,13 @@ namespace AddressBookDB
         /// <param name="addressBookModel"></param>
         public bool UpdateContact(string firstName, string lastName)
         {
-            SqlConnection sqlconnection = new SqlConnection(connectionString);
+            sqlconnection = new SqlConnection(connectionString);
             try
             {
                 AddressBookModel employeeModel = new AddressBookModel();
                 using (this.sqlconnection)
                 {
-                    string query = @"UPDATE Address_Book SET Person_Address='Vashi',City='NaviMumbai',State='Maharashtra' 
+                    string query = @"UPDATE Address_Book SET Person_Address='Ghansoli',City='NaviMumbai',State='Maharashtra' 
                                     WHERE First_Name='Aayush' AND Last_Name='Kadam';";
                     SqlCommand sqlCommand = new SqlCommand(query, this.sqlconnection);
 
@@ -149,9 +149,9 @@ namespace AddressBookDB
                 {
                     SqlCommand sqlCommand = new SqlCommand("SpGetContactsByDateRange", this.sqlconnection);
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlCommand.Parameters.AddWithValue("PersonId", employeeModel.PersonId);
-                    sqlCommand.Parameters.AddWithValue("@Start_Date", employeeModel.Start_Date);
-                    sqlCommand.Parameters.AddWithValue("@End_Date", employeeModel.End_Date);
+                    sqlCommand.Parameters.AddWithValue("@PersonId", employeeModel.PersonId);
+                    sqlCommand.Parameters.AddWithValue("@Start_Date", Start_Date);
+                    sqlCommand.Parameters.AddWithValue("@End_Date", End_Date);
 
                     this.sqlconnection.Open();
 
@@ -183,6 +183,7 @@ namespace AddressBookDB
                     else
                     {
                         Console.WriteLine("No data found");
+                        
                     }
                     sqlDataReader.Close();
                     this.sqlconnection.Close();

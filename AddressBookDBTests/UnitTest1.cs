@@ -1,11 +1,55 @@
 using AddressBookDB;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MySql.Data.MySqlClient.Memcached;
+using Newtonsoft.Json;
+using RestSharp;
+using System.Collections.Generic;
 
 namespace AddressBookDBTests
 {
+
     [TestClass]
     public class UnitTest1
     {
+        RestClient client;
+
+        /// <summary>
+        /// Initialize Rest client with localhost:4000
+        /// </summary>
+        [TestInitialize]
+        public void Setup()
+        {
+            client = new RestClient("http://localhost:4000");
+        }
+
+        /// <summary>
+        /// Ability to Read entries of AddressBook from JSON Server
+        /// </summary>
+        [TestMethod]
+        public void OnCallingList_ReturnAddressBookList()
+        {
+            IRestResponse restResponse = GetAddressBookList();
+
+            ///Assert
+            Assert.AreEqual(restResponse.StatusCode, System.Net.HttpStatusCode.OK);
+            List<AddressBookModel> addressBook = JsonConvert.DeserializeObject<List<AddressBookModel>>(restResponse.Content);
+            Assert.AreEqual(3, addressBook.Count);
+        }
+
+        /// <summary>
+        /// Interface to get List of Details
+        /// </summary>
+        /// <returns></returns>
+        private IRestResponse GetAddressBookList()
+        {
+            ///Arrange
+            RestRequest restRequest = new RestRequest("/addressBook", Method.GET);
+
+            ///Act
+            IRestResponse response = client.Execute(restRequest);
+            return response;
+        }
+
         [TestMethod]
         public void GivenRetrieveData_ShouldReturnTrue()
         {
@@ -18,8 +62,8 @@ namespace AddressBookDBTests
         public void GivenFirstNameAndLastName_WhenMatch_ShouldReturnTrue()
         {
             AddressBookRepo addressBookRepo = new AddressBookRepo();
-            bool result = addressBookRepo.UpdateContact("Aayush","Kadam");
-            Assert.IsTrue(result);
+            bool result = addressBookRepo.UpdateContact("Aayush", "Kadam");
+            Assert.AreEqual(result,true);
         }
 
         [TestMethod]

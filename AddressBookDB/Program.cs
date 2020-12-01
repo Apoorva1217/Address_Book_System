@@ -11,10 +11,10 @@ namespace AddressBookDB
             AddressBookRepo addressBookRepo = new AddressBookRepo();
             AddressBookModel addressBookModel = new AddressBookModel();
             List<AddressBookModel> addressBookModels = new List<AddressBookModel>();
-            addressBookRepo.GetAllDetails();
-            addressBookRepo.UpdateContact("Aayush","Kadam");
+            //addressBookRepo.GetAllDetails();
+            //addressBookRepo.UpdateContact("Aayush","Kadam");
             addressBookRepo.GetContactsByDateRange("2019-02-03","2020-10-22");
-            addressBookRepo.GetCountByCityOrState();
+            //addressBookRepo.GetCountByCityOrState();
 
             addressBookModel.First_Name = "Manaswi";
             addressBookModel.Last_Name = "Patil";
@@ -27,8 +27,8 @@ namespace AddressBookDB
             addressBookModel.Address_Book_Name = "FriendList";
             addressBookModel.Address_Book_Type = "Friends";
 
-            addressBookRepo.AddContact(addressBookModel);
-            addressBookRepo.AddPersonToAddressBookWithThread(addressBookModels);
+            //addressBookRepo.AddContact(addressBookModel);
+            //addressBookRepo.AddPersonToAddressBookWithThread(addressBookModels);
         }
     }
 }

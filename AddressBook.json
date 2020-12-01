@@ -1,0 +1,49 @@
+{
+	"addressBook": [
+		{
+			"PersonId": 1,
+			"First_Name": "Apoorva",
+			"Last_Name": "Rasal",
+			"Person_Address": "Kharadi",
+			"City": "Pune",
+			"State": "Maharashtra",
+			"Zip_Code": "411211",
+			"Phone_Number": "9876543212",
+			"Email": "Appu12@gmail.com",
+			"Address_Book_Name":"PersonalInfo",
+			"Address_Book_Type": "Personal",
+			"Start-Date":"2017-03-08",
+			"End_Date":"2020-07-04"
+		},
+		{
+			"PersonId": 2,
+			"First_Name": "Shreya",
+			"Last_Name": "Shinde",
+			"Person_Address": "Kalwa",
+			"City": "Thane",
+			"State": "Maharashtra",
+			"Zip_Code": "400602",
+			"Phone_Number": "9087654321",
+			"Email": "Shreya11@gmail.com",
+			"Address_Book_Name":"FriendsList",
+			"Address_Book_Type": "Friend",
+			"Start-Date":"2018-03-11",
+			"End_Date":"2020-09-14"
+		},
+		{
+			"PersonId": 3,
+			"First_Name": "Yash",
+			"Last_Name": "Patil",
+			"Person_Address": "Bandra",
+			"City": "Mumbai",
+			"State": "Maharashtra",
+			"Zip_Code": "400266",
+			"Phone_Number": "8090876756",
+			"Email": "Yash32@gmail.com",
+			"Address_Book_Name":"ContactList",
+			"Address_Book_Type": "Professional",
+			"Start-Date":"2016-02-28",
+			"End_Date":"2019-10-11"
+		}
+	]
+}
