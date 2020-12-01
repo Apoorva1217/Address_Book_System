@@ -102,6 +102,49 @@ namespace AddressBookDBTests
             Assert.AreEqual(5, addressBooklist.Count);
         }
 
+        /// <summary>
+        /// Ability to Update entry in AddressBook JSON Server
+        /// </summary>
+        [TestMethod]
+        public void GivenEntry_OnUpdate_ShouldReturnUpdatedAddressBook()
+        {
+            ///Arrange
+            RestRequest restRequest = new RestRequest("/addressBook", Method.PUT);
+            JObject jObject = new JObject();
+            jObject.Add("First_Name", "Manaswi");
+            jObject.Add("Last_Name", "Kokare");
+            jObject.Add("Person_Address","Varoli");
+            jObject.Add("City","Mumbai");
+            jObject.Add("State","Maharashtra");
+            jObject.Add("Zip_Code","402123");
+            jObject.Add("Phone_Number","9080709890");
+            jObject.Add("Email", "Manu23@gmail.com");
+            jObject.Add("Address_Book_Name", "PersonalInfo");
+            jObject.Add("Address_Book_Type", "Personal");
+            jObject.Add("Start_Date", "2018-06-08");
+            jObject.Add("End_Date", "2020-09-04");
+
+            restRequest.AddParameter("application/json", jObject, ParameterType.RequestBody);
+
+            var response = client.Execute(restRequest);
+
+            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
+            AddressBookModel addressBook = JsonConvert.DeserializeObject<AddressBookModel>(response.Content);
+            Assert.AreEqual("Manaswi", addressBook.First_Name);
+            Assert.AreEqual("Kokare", addressBook.Last_Name);
+            Assert.AreEqual("Varoli", addressBook.Person_Address);
+            Assert.AreEqual("Mumbai", addressBook.City);
+            Assert.AreEqual("Maharashtra", addressBook.State);
+            Assert.AreEqual("402123", addressBook.Zip_Code);
+            Assert.AreEqual("9080709890", addressBook.Phone_Number);
+            Assert.AreEqual("Manu23@gmail.com", addressBook.Email); 
+            Assert.AreEqual("PersonalInfo", addressBook.Address_Book_Name);
+            Assert.AreEqual("Personal", addressBook.Address_Book_Type);
+            Assert.AreEqual("2018-06-08", addressBook.Start_Date);
+            Assert.AreEqual("2020-09-04", addressBook.End_Date);
+            System.Console.WriteLine(response.Content);
+        }
+
         [TestMethod]
         public void GivenRetrieveData_ShouldReturnTrue()
         {
