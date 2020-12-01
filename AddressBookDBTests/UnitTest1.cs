@@ -109,7 +109,7 @@ namespace AddressBookDBTests
         public void GivenEntry_OnUpdate_ShouldReturnUpdatedAddressBook()
         {
             ///Arrange
-            RestRequest restRequest = new RestRequest("/addressBook", Method.PUT);
+            RestRequest restRequest = new RestRequest("/addressBook/5", Method.PUT);
             JObject jObject = new JObject();
             jObject.Add("First_Name", "Manaswi");
             jObject.Add("Last_Name", "Kokare");
@@ -142,6 +142,23 @@ namespace AddressBookDBTests
             Assert.AreEqual("Personal", addressBook.Address_Book_Type);
             Assert.AreEqual("2018-06-08", addressBook.Start_Date);
             Assert.AreEqual("2020-09-04", addressBook.End_Date);
+            System.Console.WriteLine(response.Content);
+        }
+
+        /// <summary>
+        /// Ability to Delete entry from AddressBook JSON Server
+        /// </summary>
+        [TestMethod]
+        public void GivenPersonId_OnDelete_ShouldReturnSuccessStatus()
+        {
+            ///Arrange
+            RestRequest restRequest = new RestRequest("/addressBook/5", Method.DELETE);
+
+            ///Act
+            IRestResponse response = client.Execute(restRequest);
+
+            ///Assert
+            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
             System.Console.WriteLine(response.Content);
         }
 
